@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    Dropdown choice parameter that allow user to show/hide other parameters for each option (dynamic parameters).
+</div>

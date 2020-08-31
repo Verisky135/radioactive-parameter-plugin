@@ -1,0 +1,21 @@
+<!-- this is the page fragment displayed to set up a job -->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" >
+
+    <f:entry title="${%Name}" field="name">
+        <f:textbox default="" />
+    </f:entry>
+
+    <f:entry title="${%Description}" field="description">
+        <f:textarea />
+    </f:entry>
+
+    <f:entry title="${%Selected Option}" field="selectedOption">
+        <f:textbox default="" />
+    </f:entry>
+
+    <f:entry title="${%Options}">
+        <f:repeatableProperty field="options" minimum="1"/> 
+    </f:entry> 
+
+</j:jelly>

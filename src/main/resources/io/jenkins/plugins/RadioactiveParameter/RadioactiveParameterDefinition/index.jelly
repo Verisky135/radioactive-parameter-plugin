@@ -1,0 +1,40 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:f="/lib/form">
+
+    <f:entry title="${it.name}" description="${it.description}">
+        <div name="parameter" description="${it.description}">
+            <input type="hidden" name="name" value="${it.name}" />
+            <input type="hidden" name="description" value="${it.description}" />
+
+            <select name="selectedOption" style="min-width:18rem;">
+                <j:forEach var="option" items="${it.options}" varStatus="loop">
+                    <j:choose>
+                        <f:option value="${option.optionName}" selected="${option.optionName.equals(it.selectedOption)}">
+                            ${option.optionName}
+                        </f:option>
+                        
+                    </j:choose>
+                    
+                </j:forEach>
+            </select>
+            <script src="${rootURL}/plugin/radioactive-parameter-plugin/selectOption.js"/>
+
+        </div>
+        <div name="errorMsg" display="${it.errorMsg == '' ? 'none' : ''}" style="color: red">
+            ${it.errorMsg}
+        </div>
+    </f:entry>
+
+    <f:invisibleEntry>
+        <input type="hidden" name="hideMode:${it.name}" value="${it.hideMode}" />
+        <div id="enabledParameters">
+            <j:forEach var="option" items="${it.options}" varStatus="loop">
+                <f:invisibleEntry>
+                    <f:textbox title="enabledParameters:${option.optionName}:${it.name}" value="${option.enabledParameters}"/>
+                </f:invisibleEntry>
+            </j:forEach>
+        </div>
+    </f:invisibleEntry>
+
+</j:jelly>
