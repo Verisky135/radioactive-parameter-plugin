@@ -5,6 +5,8 @@
 Dropdown choice parameter that allow user to show/hide other parameters for each option (dynamic parameters).
 
 ## Getting started
+
+Jenkins DSL use:
 ```
 radioactiveParameter {
 
@@ -25,7 +27,8 @@ radioactiveParameter {
 		}
 	}
 
-}```
+}
+```
 
 ## Contributing
 
