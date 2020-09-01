@@ -32,7 +32,7 @@ public class RadioactiveParameterDefinition extends SimpleParameterDefinition {
     public RadioactiveParameterDefinition(String name, String description, String selectedOption, List<Option> options) {
         super(name, description);
         this.hideMode = config.getDefaultHideMode();
-        this.selectedOption=  selectedOption;
+        this.selectedOption =  selectedOption;
         this.options = options;
     }
 
@@ -64,6 +64,14 @@ public class RadioactiveParameterDefinition extends SimpleParameterDefinition {
 
     @Override
     public ParameterValue createValue(String value) {
+        if (value == null || value.equals("")) {
+            if (! selectedOption.equals("")) {
+                value = selectedOption;
+            }
+            else if (! options.isEmpty()) {
+               value = options.get(0).getOptionName();
+           } 
+        }
         return new RadioactiveParameterValue(getName(), value, getDescription());
     }
 
