@@ -1,6 +1,15 @@
-document.querySelector("select[name='selectedOption']").setAttribute("onchange", "onSelectOption(this)");
+var radioactiveParams = document.querySelectorAll("select[name='selectedOption']");
+var i;
+for (i = 0; i < radioactiveParams.length; i++) {
+    radioactiveParams[i].setAttribute("onchange", "onSelectOption(this)");
+} 
+
 document.addEventListener("DOMContentLoaded", function() {
-    document.querySelector("select[name='selectedOption']").onchange();
+    var radioactiveParams = document.querySelectorAll("select[name='selectedOption']");
+    var i;
+    for (i = 0; i < radioactiveParams.length; i++) {
+        radioactiveParams[i].onchange();
+    } 
 });
   
 function onSelectOption(self){
