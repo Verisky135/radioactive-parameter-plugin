@@ -5,11 +5,7 @@ for (i = 0; i < radioactiveParams.length; i++) {
 } 
 
 document.addEventListener("DOMContentLoaded", function() {
-    var radioactiveParams = document.querySelectorAll("select[name='selectedOption']");
-    var i;
-    for (i = 0; i < radioactiveParams.length; i++) {
-        radioactiveParams[i].onchange();
-    } 
+    document.querySelector("select[name='selectedOption']").onchange();
 });
   
 function onSelectOption(self){
@@ -26,23 +22,38 @@ function onSelectOption(self){
     
     
     // Loop through all existing parameters
-    var allParameters = document.querySelectorAll("td[class='setting-name']");
+    var allParameters = document.querySelectorAll("div[class~='setting-name']");
     for (i = 0; i < allParameters.length; i++) {
         var parameter = allParameters[i];
         var elem = parameter.parentNode
-            .querySelector("td[class='setting-main']")
+            .querySelector("div[class='setting-main']")
             .querySelector("div[name='parameter']")
             .querySelector("input[name='name']");
+        var isRadioactiveParam = parameter.parentNode
+            .querySelector("div[class='setting-main']")
+            .querySelector("div[name='parameter']")
+            .querySelector("script[src='/plugin/radioactive-parameter-plugin/selectOption.js']") !== null ;
         var id = elem !== null ? elem.value : "";
         if (selfId !== id) {
-            if (enabledParametersSet.has(parameter.innerHTML)) {
+            if (enabledParametersSet.has(parameter.textContent)) {
                 
                 // Show elements
                 if (hideMode === "Hide elements") {
-                    parameter.parentNode.parentNode.style.display = "table-row-group";
+                    parameter.parentNode.style.display = "table-row-group";
+                    if (isRadioactiveParam) {
+                        var childElem = parameter.parentNode
+                            .querySelector("div[class='setting-main']")
+                            .querySelector("div[name='parameter']")
+                            .querySelector("select[name='selectedOption']");
+                        
+                        if (self.getAttribute("radioactiveParamParent") != id) {
+                            childElem.setAttribute("radioactiveParamParent", selfId); 
+                            childElem.onchange();
+                        }
+                    }
                 }
                 else {
-                    var parameterElement = parameter.parentNode.querySelector("td[class='setting-main']").querySelector("div[name='parameter']").lastChild;
+                    var parameterElement = parameter.parentNode.querySelector("div[class='setting-main']").querySelector("div[name='parameter']").lastChild;
 
                     parameterElement.style.backgroundColor = "white";
                     parameterElement.style.userSelect = "auto";
@@ -54,10 +65,12 @@ function onSelectOption(self){
                 
                 // Hide or disable elements
                 if (hideMode === "Hide elements") {
-                    parameter.parentNode.parentNode.style.display = "none";
+                    if (!isRadioactiveParam || self.getAttribute("radioactiveParamParent") != id) {
+                        parameter.parentNode.style.display = "none";
+                    }
                 }
                 else {
-                    var parameterElement = parameter.parentNode.querySelector("td[class='setting-main']").querySelector("div[name='parameter']").lastChild;
+                    var parameterElement = parameter.parentNode.querySelector("div[class='setting-main']").querySelector("div[name='parameter']").lastChild;
                     parameterElement.style.backgroundColor = "#DDD";
                     parameterElement.style.userSelect = "none";
                     parameterElement.readOnly = true;
